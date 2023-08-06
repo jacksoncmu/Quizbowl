@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <form method="post" class="chat-form">
+    <h2>Welcome to Quizbowl!</h2>
+    <div class="form-group">
+      <label for="name">Username:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="E.g., Jackson Chen"
+        value="{{name}}"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="code">Room code (6 digits):</label>
+      <input
+        type="text"
+        id="code"
+        name="code"
+        placeholder="E.g., 123456"
+        value="{{code}}"
+        pattern="[0-9]{6}"
+        required
+      />
+    </div>
+
+    <button type="submit" name="join" class="btn btn-primary">Join Room</button>
+    <button type="submit" name="create" class="btn btn-secondary">Create Room</button>
+
+    {% if error %}
+    <div class="error-message">{{ error | safe}}</div>
+    {% endif %}
+  </form>
+</div>
+{% endblock %}
