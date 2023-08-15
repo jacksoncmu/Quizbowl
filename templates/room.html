@@ -61,11 +61,11 @@
   const buzzButton = document.getElementById("buzz-btn");
   const createGameButton = document.getElementById("createGameButton");
   const resetGameButton = document.getElementById("resetGameButton");
-  let hasBuzzedIn = false; // Initialize the buzz in status
+  let hasBuzzedIn = false;
 
   socketio.on("host_left", () => {
     alert("Host left the game");
-    window.location.href = "{{ url_for('home') }}"; // Redirect to the main menu
+    window.location.href = "{{ url_for('home') }}"; 
   });
 
   socketio.on("room_status_update", (data) => {
@@ -73,13 +73,13 @@
       if (data.status === "restricted") {
         buzzButton.disabled = false;
         if ("{{ session.get('identity') }}" === "host") {
-        createGameButton.style.display = "none"; // Hide the create game button
-        resetGameButton.style.display = "block";} // Show the reset game button
+        createGameButton.style.display = "none"; 
+        resetGameButton.style.display = "block";} 
       } else {
         buzzButton.disabled = true;
         if ("{{ session.get('identity') }}" === "host") {
-        createGameButton.style.display = "block"; // Show the create game button
-        resetGameButton.style.display = "none";} // Hide the reset game button
+        createGameButton.style.display = "block"; 
+        resetGameButton.style.display = "none";} // Show create and hide reset
       }
     }
   });
@@ -102,7 +102,7 @@
 };
 
 socketio.on("message", (data) => {
-    const serverTimestamp = new Date(data.timestamp);  // Convert server's timestamp to Date object
+    const serverTimestamp = new Date(data.timestamp); 
     const formattedTime = serverTimestamp.toLocaleString(undefined, { hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 3 });
 
     createMessage(data.name, data.message, formattedTime);
@@ -118,8 +118,8 @@ socketio.on("message", (data) => {
   const buzzIn = () => {
 
     socketio.emit("message", { data: "{{ session.get('name') }} buzzed in!" });
-    hasBuzzedIn = true; // Mark user as buzzed in
-    buzzButton.disabled = true; // Disable the buzz in button
+    hasBuzzedIn = true; 
+    buzzButton.disabled = true; 
   };
 
   if ("{{ session.get('identity') }}" === "host") {
@@ -140,10 +140,9 @@ socketio.on("message", (data) => {
     xhr.onload = function () {
       if (xhr.status === 200) {
         const response = JSON.parse(xhr.responseText);
-        {
-          // Send a "game started" message to the server
-          socketio.emit("message", { data: "Game started!" });
-        }
+      
+        socketio.emit("message", { data: "Game started!" });
+        
       }
     };
     xhr.send(JSON.stringify({ room: "{{ session.get('room') }}" }));
