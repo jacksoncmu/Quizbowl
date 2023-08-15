@@ -7,12 +7,9 @@ from datetime import datetime
 import time 
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "hjhjsdahhds"
-# Local database (doesn't work on website), PostgreSQL database (costs $5 per month), and MySQL database (free and functional)
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://Jackson:swljc4EVER99!@localhost/Quizbowl"  
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://hwxugglazuhdiy:19f636213abefc651b3436c9c0d66d44a3c04a49729d16c5c4261cb106909051@ec2-35-169-9-79.compute-1.amazonaws.com:5432/dbtfljtlvk02s"
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://b685a73653f357:316c5255@us-cdbr-east-06.cleardb.net/heroku_2f0a2230238aa13"
-
+# variable configurations are hidden
+app.config["SECRET_KEY"] = 
+app.config["SQLALCHEMY_DATABASE_URI"] =
 
 db = SQLAlchemy(app)
 socketio = SocketIO(app)
