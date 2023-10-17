@@ -10,6 +10,7 @@
     window.location.href = "{{ url_for('home') }}"; 
   });
 
+// display the create game button if the game hasn't started yet, and display the reset game button if the game has started
   socketio.on("room_status_update", (data) => {
     if (data.room === "{{ session.get('room') }}") {
       if (data.status === "restricted") {
