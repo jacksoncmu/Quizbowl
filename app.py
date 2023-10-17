@@ -16,6 +16,7 @@ socketio = SocketIO(app)
 
 rooms = {}
 
+# create tables through SQLAlchemy to store room participants and room status
 class RoomParticipants(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     room_number = db.Column(db.String(6), nullable=False)
@@ -27,16 +28,6 @@ class RoomStatus(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     room_number = db.Column(db.String(6), nullable=False)
     status = db.Column(db.String(255), nullable=False)
-
-def generate_unique_code(length):
-    while True:
-        code = ""
-        for _ in range(length):
-            code += random.choice(ascii_uppercase)
-        
-        if code not in rooms:
-            break
-    return code
 
 @app.route("/", methods=["POST", "GET"])
 def home():
@@ -53,7 +44,8 @@ def home():
         if join != False and not code:
             return render_template("home.html", error="Please enter a room code.", code=code, name=name)
         
-        room = code  
+        room = code
+        # update room status to "restricted" to prevent users from entering
         if RoomStatus.query.filter_by(room_number=room, status="restricted").first():
             return render_template("home.html", error="Game already started.", code=code, name=name)
         if create != False:
@@ -166,7 +158,7 @@ def disconnect():
     if room in rooms:
         rooms[room]["members"] -= 1
         if identity == "host":
-            # Removes all records once the host disconnects
+            # Removes all room records once the host disconnects
             RoomStatus.query.filter_by(room_number=room).delete()
             RoomParticipants.query.filter_by(room_number=room).delete()
             db.session.commit()
