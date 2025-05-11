@@ -1,5 +1,4 @@
-A online buzzer system with real-time chat integration.    
-Check out the website: www.quizbowl-buzzer.online     
+A online buzzer system with real-time chat integration.      
 Frontend: HTML, CSS, Javascript  
 Backend: Python, Flask, socket.io, SQLAlchemy  
 Database: MySQL, PostgreSQL, ClearDB   
